@@ -1,0 +1,42 @@
+<% include partials/header.ejs %>
+<div class="table-wrapper">
+  <% if (products.length > 0) {%>
+    <table class="table table-hovered">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">name</th>
+          <th scope="col" colspan=2>price</th>                    
+        </tr>
+      </thead>
+      <tbody>
+        <% products.forEach((product, index) => { %>
+          <tr>
+            <th scope="row"><%= product.id %></th>
+            <td><%= product.name %></td>
+            <td><%= product.price %></td>
+            <td><a href="/add_to_cart/<%= product.id%>" class="btn btn-success pull-right" role="button" id="add_to_cart">Add to Cart</a></td>
+          </tr>;
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <p class="text-center">No products found</p>
+  <% } %>
+</div>
+</body>
+</html>
+<script>
+	var button = document.getElementById('add_to_cart');
+	button.addEventListener('click', function(e){
+		fetch('add_to_cart', {method: 'POST'}).then(function(res){
+			if (res.ok){
+				alert('Item added to Cart');
+				return;
+			}
+			throw new error ('request failed');
+		}).catch(function(err){
+			console.log(err);
+		});
+	});
+</script>
